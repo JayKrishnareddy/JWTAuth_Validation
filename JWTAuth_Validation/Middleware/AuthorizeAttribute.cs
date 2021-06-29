@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using JWTAuth_Validation.Controllers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -10,7 +11,7 @@ namespace JWTAuth_Validation.Middleware
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var account = (Account)context.HttpContext.Items["Account"];
+            var account = (LoginModel)context.HttpContext.Items["User"];
             if (account == null)
             {
                 // not logged in

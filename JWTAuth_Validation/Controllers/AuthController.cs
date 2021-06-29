@@ -5,7 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -22,6 +21,8 @@ namespace JWTAuth_Validation.Controllers
         {
             _configuration = configuration;
         }
+        [HttpPost(nameof(Auth))]
+        [AllowAnonymous]
         public IActionResult Auth([FromBody] LoginModel data)
         {
             IActionResult response = Unauthorized();
@@ -32,6 +33,12 @@ namespace JWTAuth_Validation.Controllers
                 response = Ok(new { Token = tokenString, Message = "Success" });
             }
             return response;
+        }
+
+        [HttpGet(nameof(GetResult))]
+        public IActionResult GetResult()
+        {
+            return Ok();
         }
         /// <summary>
         /// Generate JWT Token after successful login.
@@ -51,7 +58,7 @@ namespace JWTAuth_Validation.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-       
+
     }
     #region JsonProperties  
     /// <summary>  

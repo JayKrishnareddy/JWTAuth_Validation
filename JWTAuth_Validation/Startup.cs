@@ -1,3 +1,4 @@
+using JWTAuth_Validation.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -72,8 +73,8 @@ namespace JWTAuth_Validation
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = Configuration["Jwt:Issuer"],
@@ -82,6 +83,8 @@ namespace JWTAuth_Validation
                 };
             });
             #endregion
+
+            services.AddScoped<UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
