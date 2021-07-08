@@ -12,17 +12,15 @@ namespace JWTAuth_Validation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-
         public AuthController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-        [HttpPost(nameof(Auth))]
         [AllowAnonymous]
+        [HttpPost(nameof(Auth))]
         public IActionResult Auth([FromBody] LoginModel data)
         {
             IActionResult response = Unauthorized();
@@ -34,18 +32,18 @@ namespace JWTAuth_Validation.Controllers
             }
             return response;
         }
-
+       // [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet(nameof(GetResult))]
         public IActionResult GetResult()
         {
-            return Ok();
+            return Ok("API Validated");
         }
         /// <summary>
         /// Generate JWT Token after successful login.
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        public string GenerateJwtToken(string userName)
+        private string GenerateJwtToken(string userName)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:key"]);

@@ -1,3 +1,4 @@
+using JWTAuth_Validation.Middleware;
 using JWTAuth_Validation.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -33,10 +34,10 @@ namespace JWTAuth_Validation
                 swagger.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "JWT Auth & Validation",
+                    Title = "JWT Token Authentication API",
                     Description = "ASP.NET Core 5.0 Web API"
                 });
-                // To Enable authorization using Swagger (JWT)  
+                // To Enable authorization using Swagger (JWT)
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
@@ -73,18 +74,18 @@ namespace JWTAuth_Validation
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
                     ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = Configuration["Jwt:Issuer"],
                     ValidAudience = Configuration["Jwt:Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])) //Configuration["JwtToken:SecretKey"]  
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])) //Configuration["JwtToken:SecretKey"]
                 };
             });
             #endregion
 
-            services.AddScoped<UserService>();
+            services.AddTransient<IUserService,UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -93,15 +94,17 @@ namespace JWTAuth_Validation
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "JWTAuth_Validation v1"));
             }
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
+           
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "JWTAuth_Validation"));
+
+            // app.UseMiddleware<JWTMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

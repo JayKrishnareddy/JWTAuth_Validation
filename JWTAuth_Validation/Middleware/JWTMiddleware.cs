@@ -14,9 +14,9 @@ namespace JWTAuth_Validation.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly IConfiguration _configuration;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public JWTMiddleware(RequestDelegate next, IConfiguration configuration, UserService userService)
+        public JWTMiddleware(RequestDelegate next, IConfiguration configuration, IUserService userService)
         {
             _next = next;
             _configuration = configuration;
