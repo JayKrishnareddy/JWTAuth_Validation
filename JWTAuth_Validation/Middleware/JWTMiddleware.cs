@@ -53,7 +53,7 @@ namespace JWTAuth_Validation.Middleware
                 var accountId = jwtToken.Claims.First(x => x.Type == "id").Value;
 
                 // attach account to context on successful jwt validation
-                context.Items["Account"] = _userService.GetUserDetails();
+                context.Items["User"] = _userService.GetUserDetails();
             }
             catch
             {
@@ -61,34 +61,5 @@ namespace JWTAuth_Validation.Middleware
                 // account is not attached to context so request won't have access to secure routes
             }
         }
-
-        //public string ValidateJwtToken(string token)
-        //{
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-        //    var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
-        //    try
-        //    {
-        //        tokenHandler.ValidateToken(token, new TokenValidationParameters
-        //        {
-        //            ValidateIssuerSigningKey = true,
-        //            IssuerSigningKey = new SymmetricSecurityKey(key),
-        //            ValidateIssuer = false,
-        //            ValidateAudience = false,
-        //            // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
-        //            ClockSkew = TimeSpan.Zero
-        //        }, out SecurityToken validatedToken);
-
-        //        var jwtToken = (JwtSecurityToken)validatedToken;
-        //        var account = jwtToken.Claims.First(x => x.Type == "id").Value;
-
-        //        // return account id from JWT token if validation successful
-        //        return account
-        //    }
-        //    catch
-        //    {
-        //        // return null if validation fails
-        //        return null;
-        //    }
-        //}
     }
 }
