@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using JWTAuth_Validation.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -15,22 +16,23 @@ namespace JWTAuth_Validation.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        public AuthController(IConfiguration configuration)
+        private readonly IUserService _userService;
+        public AuthController(IConfiguration configuration,IUserService userService)
         {
             _configuration = configuration;
+            _userService = userService;
         }
         [AllowAnonymous]
         [HttpPost(nameof(Auth))]
         public IActionResult Auth([FromBody] LoginModel data)
         {
-            IActionResult response = Unauthorized();
-            var user = new LoginModel { UserName = "Jay", Password = "123456" };
-            if (data != null)
+            bool isValid = _userService.IsValidUserInformation(data);
+            if (isValid)
             {
-                var tokenString = GenerateJwtToken(user.UserName);
-                response = Ok(new { Token = tokenString, Message = "Success" });
+                var tokenString = GenerateJwtToken(data.UserName);
+                return Ok(new { Token = tokenString, Message = "Success" });
             }
-            return response;
+            return BadRequest("Please pass the valid Username and Password");
         }
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet(nameof(GetResult))]
