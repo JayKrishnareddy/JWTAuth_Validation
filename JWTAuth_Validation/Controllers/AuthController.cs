@@ -53,6 +53,8 @@ namespace JWTAuth_Validation.Controllers
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("id", userName) }),
                 Expires = DateTime.UtcNow.AddHours(1),
+                Issuer = _configuration["Jwt:Issuer"],
+                Audience = _configuration["Jwt:Audience"],
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
