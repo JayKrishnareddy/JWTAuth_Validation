@@ -2,18 +2,17 @@
 
 ### How JWT Auth Works?
 
-
+![Alt Text](https://github.com/JayKrishnareddy/JWTAuth_Validation/blob/master/jwt2.png)
 
 ### Prerequisites
 - Install the latest .NET Core 5.0 SDK from [here](https://dotnet.microsoft.com/download/dotnet/5.0 "here").
 - Install the latest version of Visual Studio 2019 from [here](https://visualstudio.microsoft.com/downloads/ "here")
 
 ### Topic to be covered in this article
-- Tools required
-- Required Packages
-- Setting up the Swagger
-- Run & Test
+- Setup the .Net 5.0 Web API Project.
+- Configure JWT Authentication
+- Generate JWT Token.
+- Validate JWT Token using Custom Middleware and Custom Authorize Attribute.
+- Testing the Endpoint (API) with Swagger.
 
-If you want to learn more about this Article 👇🏻
 
-[**C# Corner**](https://www.c-sharpcorner.com/article/integrate-swagger-open-api-with-node-express/ "C# Corner")
