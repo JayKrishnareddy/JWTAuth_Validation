@@ -15,4 +15,6 @@
 - Validate JWT Token using Custom Middleware and Custom Authorize Attribute.
 - Testing the Endpoint (API) with Swagger.
 
+If you want more about this, Do check out my Article 👇🏻
 
+[**C# Corner**](https://www.c-sharpcorner.com/article/jwt-validation-and-authorization-in-net-5-0/ "C# Corner")
